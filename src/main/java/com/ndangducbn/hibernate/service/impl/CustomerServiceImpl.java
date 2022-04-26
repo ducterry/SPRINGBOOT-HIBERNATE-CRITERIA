@@ -1,10 +1,38 @@
 package com.ndangducbn.hibernate.service.impl;
 
+import com.ndangducbn.hibernate.dao.CustomerDAO;
 import com.ndangducbn.hibernate.entity.Customer;
 import com.ndangducbn.hibernate.service.CustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-public class CustomerServiceImpl {
+@Slf4j
+public class CustomerServiceImpl implements CustomerService {
+    private final CustomerDAO customerDAO;
+
+    public CustomerServiceImpl(CustomerDAO customerDAO) {
+        this.customerDAO = customerDAO;
+    }
+
+    @Override
+    public Customer detailCustomer(String customerId) {
+        try {
+            return this.customerDAO.detailCustomer(customerId);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    @Override
+    public List<Customer> getListCustomer() {
+        try {
+            List<Customer> listCustomer = this.customerDAO.getListCustomer();
+            return listCustomer;
+        } catch (Exception ex) {
+            return null;
+        }
+    }
 }
