@@ -2,7 +2,6 @@ package com.ndangducbn.hibernate.utils;
 
 
 import com.ndangducbn.hibernate.enums.ResponseStatus;
-import com.ndangducbn.hibernate.exeption.ApiException;
 import com.ndangducbn.hibernate.exeption.ApiServiceException;
 import org.apache.commons.lang3.StringUtils;
 

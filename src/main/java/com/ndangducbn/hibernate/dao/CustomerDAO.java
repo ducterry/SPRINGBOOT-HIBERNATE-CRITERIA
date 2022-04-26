@@ -2,10 +2,12 @@ package com.ndangducbn.hibernate.dao;
 
 import com.ndangducbn.hibernate.entity.Customer;
 import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Repository
@@ -35,6 +37,13 @@ public class CustomerDAO {
         if (object != null) {
             return (Customer) object;
         }
+        return null;
+    }
+
+    public Customer saveCustomer(Customer customer) {
+        Session session = this.sessionFactory.getCurrentSession();
+        Serializable save = session.save(customer);
+
         return null;
     }
 }

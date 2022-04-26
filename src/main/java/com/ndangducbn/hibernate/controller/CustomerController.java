@@ -1,6 +1,7 @@
 package com.ndangducbn.hibernate.controller;
 
-import com.ndangducbn.hibernate.dao.CustomerDAO;
+import com.ndangducbn.hibernate.dto.request.CreateCustomerRq;
+import com.ndangducbn.hibernate.dto.response.CustomerRes;
 import com.ndangducbn.hibernate.entity.Customer;
 import com.ndangducbn.hibernate.service.CustomerService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,9 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -49,6 +48,25 @@ public class CustomerController {
         List<Customer> listCustomer = this.customerService.getListCustomer();
 
         return ResponseEntity.status(HttpStatus.OK).body(listCustomer);
+    }
+
+    @Operation(description = "Xem danh sách Customer",
+            responses = {
+                    @ApiResponse(content = @Content(
+                            array = @ArraySchema(
+                                    schema = @Schema(implementation = Customer.class))), responseCode = "200")})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Thành công"),
+            @ApiResponse(responseCode = "401", description = "Chưa xác thực"),
+            @ApiResponse(responseCode = "403", description = "Truy cập bị cấm"),
+            @ApiResponse(responseCode = "404", description = "Không tìm thấy")
+    })
+    @PostMapping(value = "v1/customers", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CustomerRes> createCustomer(@RequestBody CreateCustomerRq request) {
+        log.debug(PRE_FIX_LOG + "getCustomerList");
+        this.customerService.createCustomer(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(this.customerService.createCustomer(request));
     }
 
 }
